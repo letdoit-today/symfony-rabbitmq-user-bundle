@@ -35,7 +35,7 @@ abstract class AbstractUser implements UserInterface
 
     public function setEmail(?string $email): self
     {
-        $this->email = $email;
+        $this->email = empty($email) ? null : strtolower(trim($email));
 
         return $this;
     }
