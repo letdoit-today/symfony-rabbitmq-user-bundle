@@ -1,0 +1,28 @@
+parameters:
+    letdoittoday.user_class: App\Entity\User
+
+services:
+    DIT\RabbitMQUserBundle\Service\UserEmitterService:
+        arguments:
+            - '@parameter_bag'
+            - '@jms_serializer'
+
+    DIT\RabbitMQUserBundle\Service\UserReceiverService:
+        arguments:
+            - '@parameter_bag'
+            - '@jms_serializer'
+            - '@doctrine.orm.entity_manager'
+
+    letdoittoday_user_event_listener:
+        class: DIT\RabbitMQUserBundle\EventListener\UserListener
+        arguments:
+            - '@DIT\RabbitMQUserBundle\Service\UserEmitterService'
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    letdoittoday_user_message_listener:
+        class: DIT\RabbitMQUserBundle\Command\DITListenUserMessageCommand
+        arguments:
+            - '@DIT\RabbitMQUserBundle\Service\UserReceiverService'
+        tags:
+            - { name: console.command }
