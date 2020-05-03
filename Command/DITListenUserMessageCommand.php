@@ -32,13 +32,6 @@ class DITListenUserMessageCommand extends Command
         $this->receiverService = $receiverService;
     }
 
-    protected function configure()
-    {
-        $this
-            ->setDescription('Creates a new user.')
-            ->setHelp('This command allows you to create a user...');
-    }
-
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
